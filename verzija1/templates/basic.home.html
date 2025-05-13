@@ -1,25 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    <p>Da vidim radi li github</p>
-    <h2>Ako ovo vidis nakon logina to je  {{ user.username }}</h2>
-        <a href="">
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
-        </a>
-        <a href="{% url 'registracija' %}"><button>Register</button></a>
-        <a href="{% url 'firma_unos' %}"><button>Dodaj Firmu</button></a>
-        {% if user.is_staff %}
-        <a href="/admin"><button>Admin</button></a>
-        {% endif %}
+{% extends 'config.master.html' %}
 
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+    <h2 class="display-4 fs-4">
+        Dobrodošli {{ user.first_name }} {{ user.last_name }}!<br>
+        
+        <div class="d-flex justify-content-between">
+            <small class="text-muted">Company Management Software</small>
+            <span><b>Dashboard</b></span>
+          </div>
+          
+    </h2>
+
+    <div class="row">
+        <div class="col-4 rounded-start border border-1 border-secondary border-end-0">
+            <h4 class="py-2 px-1 border-bottom"><i>Drogerie Market</i></h4>
+
+            <div class="card my-2">
+                <h5 class="card-header"><i>Detalji</i></h5>
+                <div class="card-body">
+                    <h5 class="card-title">Website <a href="">www.dm.ba</a></h5>
+                    <p class="card-text">Firma se bavi [oblast poslovanja], sa fokusom na kvalitet, pouzdanost i zadovoljstvo klijenata.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card h-100">
+                        <h5 class="card-header">Uposlenici</h5>
+                        <div class="card-body">
+                            <p class="card-text">
+                            Broj Uposlenika: <b>15</b><br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <h5 class="card-header">Vozila</h5>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Aktivna vozila: <b>30</b><br>
+                                Vozila na putu: <b>5</b><br>
+                                Vozila u kvaru: <b>2</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card my-2">
+                <h5 class="card-header">AI <i>Informacije</i></h5>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-outline-primary">Go somewhere</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-5 border border-1 border-secondary border-end-0">
+            <h4 class="py-2 px-1 border-bottom fs-4"><i>Budzet</i></h4>
+            <div id="myChart" style="max-width:700px; height:300px" class="px-0"></div>
+            <script>
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                
+                function drawChart() {
+                // Set Data
+                const data = google.visualization.arrayToDataTable([
+                ['Price', 'Size'],
+                [50,7],[60,8],[70,8],[80,9],[90,9],[100,9],
+                [110,10],[120,11],[130,14],[140,14],[150,15]
+                ]);
+                // Set Options
+                const options = {
+                title: 'House Prices vs Size',
+                hAxis: {title: 'Square Meters'},
+                vAxis: {title: 'Price in Millions'},
+                legend: 'none'
+                };
+                // Draw Chart
+                const chart = new google.visualization.LineChart(document.getElementById('myChart'));
+                chart.draw(data, options);
+                }
+
+
+            </script>
+        </div>
+
+        <div class="col-3 rounded-end border border-1 border-secondary">
+            <h4 class="py-2 px-1 border-bottom"><i>Obavijesti</i></h4>
+
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading fs-5 border border-bottom border-1">Vozilo!</h4>
+                
+                <strong>Jedno od vaših vozila je na servisu.</strong>
+                Registracija vozila ističe za 5 dana.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading fs-5">Vozilo!</h4>
+                <hr>
+                <strong>Jedno od vaših vozila je u kvaru.</strong>
+                Popravka vozila je u toku.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading fs-5">Uposlenik!</h4>
+                <hr>
+                <strong>Uposlenik se nije prijavio u smjenu.</strong>
+                Molimo obavite neophodne radnje.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <h5>Lista firmi</h5>
+    <p class="lead">U ovoj sekciji možete dodati novu firmu.</p>
         <table border="1">
             <thead>
             <tr>
@@ -42,5 +145,4 @@
             {% endfor %}
             </tbody>
         </table>
-</body>
-</html>
+{% endblock %}
