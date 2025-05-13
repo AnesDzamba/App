@@ -10,6 +10,7 @@ def home(request):
     firme = Firma.objects.all()
     return render(request, 'basic.home.html', {'firme': firme})
 
+#Da vidim radi li ovo
 # klasicni register korisnika
 def registracija(request):
     if request.method == 'POST':
