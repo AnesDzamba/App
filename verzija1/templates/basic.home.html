@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h2>Ako ovo vidis nakon logina to je  {{ user.username }}</h2>
+        <a href="">
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        </a>
+        <a href="{% url 'registracija' %}"><button>Register</button></a>
+        <a href="{% url 'firma_unos' %}"><button>Dodaj Firmu</button></a>
+        {% if user.is_staff %}
+        <a href="/admin"><button>Admin</button></a>
+        {% endif %}
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Adresa</th>
+                <th>Opis</th>
+                <th>Email</th>
+                <th>Telefon</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for f in firme %}
+            <tr>
+                <td>{{ f.naziv|escape }}</td>
+                <td>{{ f.adresa|escape }}</td>
+                <td>{{ f.opis|escape }}</td>
+                <td>{{ f.email|escape }}</td>
+                <td>{{ f.telefon|escape }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</body>
+</html>
