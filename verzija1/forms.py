@@ -11,6 +11,11 @@ class Registracija(UserCreationForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
+    def __init__(self, *args, **kwargs):
+        super(Registracija, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data.get('email')
@@ -25,7 +30,13 @@ class FirmaForma(forms.ModelForm):
     class Meta:
         model = Firma
         fields = ['naziv', 'adresa', 'telefon', 'email', 'web_stranica', 'opis', 'clearance', 'bill']
-    
+
+    def __init__(self, *args, **kwargs):
+        super(FirmaForma, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
     def save(self, commit = True):
         firma = super().save(commit=False)
         firma.naziv = self.cleaned_data.get('naziv')

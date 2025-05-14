@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import Registracija, FirmaForma
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Firma
 
@@ -23,6 +24,20 @@ def registracija(request):
     else:
         form = Registracija()
     return render(request, 'basic.registracija.html', {'form': form})
+
+# Login korisnika
+def login_korisnika(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f'Prijavljeni ste kao <strong>{username}</strong> ( <strong>{user.first_name} {user.last_name}</strong> )')
+            return redirect('home')
+        else:
+            messages.error(request, 'Pogrešno korisničko ime ili lozinka!')
+    return render(request, 'basic.login.html')
 
 # Unosis firmu i ispisuje se u 'home'
 @login_required

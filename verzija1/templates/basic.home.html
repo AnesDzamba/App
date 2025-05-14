@@ -5,21 +5,37 @@ Home
 {% endblock %}
 
 {% block content %}
+
     <h2 class="display-4 fs-4">
         Dobrodošli {{ user.first_name }} {{ user.last_name }}!<br>
-        
         <div class="d-flex justify-content-between">
             <small class="text-muted">Company Management Software</small>
             <span><b>Dashboard</b></span>
-          </div>
-          
+        </div>  
     </h2>
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="row">
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Login - obavijest</strong>
+                        <small>sada</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {{ message|safe }}
+                    </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
 
     <div class="row">
         <div class="col-4 rounded-start border border-1 border-secondary border-end-0">
             <h4 class="py-2 px-1 border-bottom"><i>Drogerie Market</i></h4>
 
-            <div class="card my-2">
+            <div class="card my-2 shadow">
                 <h5 class="card-header"><i>Detalji</i></h5>
                 <div class="card-body">
                     <h5 class="card-title">Website <a href="">www.dm.ba</a></h5>
@@ -29,30 +45,54 @@ Home
 
             <div class="row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card h-100">
+                    <div class="card h-100 shadow">
                         <h5 class="card-header">Uposlenici</h5>
                         <div class="card-body">
-                            <p class="card-text">
-                            Broj Uposlenika: <b>15</b><br>
-                            </p>
+                            <table class="table table-bordered table-hover mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>Broj uspolenika</td>
+                                            <td><b>15</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Na bolovanju</td>
+                                            <td><b>5</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Na odmoru</td>
+                                            <td><b>2</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="card">
+                    <div class="card shadow">
                         <h5 class="card-header">Vozila</h5>
                         <div class="card-body">
-                            <p class="card-text">
-                                Aktivna vozila: <b>30</b><br>
-                                Vozila na putu: <b>5</b><br>
-                                Vozila u kvaru: <b>2</b>
-                            </p>
+                                <table class="table table-bordered table-hover mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>Aktivna vozila</td>
+                                            <td><b>30</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Na servisu</td>
+                                            <td><b>5</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vozila u kvaru</td>
+                                            <td><b>2</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card my-2">
+            <div class="card my-2 shadow">
                 <h5 class="card-header">AI <i>Informacije</i></h5>
                 <div class="card-body">
                     <h5 class="card-title">Special title treatment</h5>
@@ -64,60 +104,91 @@ Home
         </div>
         <div class="col-5 border border-1 border-secondary border-end-0">
             <h4 class="py-2 px-1 border-bottom fs-4"><i>Budzet</i></h4>
-            <div id="myChart" style="max-width:700px; height:300px" class="px-0"></div>
-            <script>
-                google.charts.load('current', {'packages':['corechart']});
-                google.charts.setOnLoadCallback(drawChart);
-                
-                function drawChart() {
-                // Set Data
-                const data = google.visualization.arrayToDataTable([
-                ['Price', 'Size'],
-                [50,7],[60,8],[70,8],[80,9],[90,9],[100,9],
-                [110,10],[120,11],[130,14],[140,14],[150,15]
-                ]);
-                // Set Options
-                const options = {
-                title: 'House Prices vs Size',
-                hAxis: {title: 'Square Meters'},
-                vAxis: {title: 'Price in Millions'},
-                legend: 'none'
-                };
-                // Draw Chart
-                const chart = new google.visualization.LineChart(document.getElementById('myChart'));
-                chart.draw(data, options);
-                }
 
+            <div class="card my-2 shadow">
+                <h5 class="card-header"><i>ROI Firme</i></h5>
+                <div class="card-body">
+                    <div id="myChart" style="max-width:700px; height:300px" class="px-0 border"></div>
+                    <script>
+                        google.charts.load('current', {'packages':['corechart']});
+                        google.charts.setOnLoadCallback(drawChart);
+                        
+                        function drawChart() {
+                        // Set Data
+                        const data = google.visualization.arrayToDataTable([
+                        ['Price', 'Size'],
+                        [50,7],[60,8],[70,8],[80,9],[90,9],[100,9],
+                        [110,10],[120,11],[130,14],[140,14],[150,15]
+                        ]);
+                        // Set Options
+                        const options = {
+                        title: 'House Prices vs Size',
+                        hAxis: {title: 'Square Meters'},
+                        vAxis: {title: 'Price in Millions'},
+                        legend: 'none'
+                        };
+                        // Draw Chart
+                        const chart = new google.visualization.LineChart(document.getElementById('myChart'));
+                        chart.draw(data, options);
+                        }
+                    </script>
+                </div>
+            </div>
 
-            </script>
         </div>
+
 
         <div class="col-3 rounded-end border border-1 border-secondary">
             <h4 class="py-2 px-1 border-bottom"><i>Obavijesti</i></h4>
 
-            <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                <h4 class="alert-heading fs-5 border border-bottom border-1">Vozilo!</h4>
-                
-                <strong>Jedno od vaših vozila je na servisu.</strong>
-                Registracija vozila ističe za 5 dana.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Vozilo</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Jedno od vaših vozila je na servisu.</strong>
+                    Registracija vozila ističe za 5 dana.
+                </div>
             </div>
 
-            <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                <h4 class="alert-heading fs-5">Vozilo!</h4>
-                <hr>
-                <strong>Jedno od vaših vozila je u kvaru.</strong>
-                Popravka vozila je u toku.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Vozilo</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Jedno od vaših vozila je u kvaru.</strong>
+                    Popravka vozila je u toku.
+                </div>
             </div>
 
-            <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                <h4 class="alert-heading fs-5">Uposlenik!</h4>
-                <hr>
-                <strong>Uposlenik se nije prijavio u smjenu.</strong>
-                Molimo obavite neophodne radnje.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Uposlenik</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Uposlenik se nije prijavio u smjenu.</strong>
+                    Molimo obavite neophodne radnje.
+                </div>
             </div>
+
+            <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Uposlenik</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Uposlenik je prijavio odmor.</strong>
+                    Molimo obavite neophodne radnje.
+                </div>
+            </div>
+
         </div>
     </div>
 
