@@ -1,0 +1,66 @@
+{% extends 'config.master.html' %}
+
+{% block title %}
+Vozila
+{% endblock %}
+
+{% block content %}
+<h2 class="display-4 fs-4 mt-3">
+    <div class="d-flex justify-content-between">
+                <small class="text-muted">Company Management Software</small>
+                <span><b>Dashboard <i class="fa-solid fa-angle-right fs-5"></i> <small><i>Vozila</i></small></b></span>
+    </div>
+</h2>
+<div class="row mb-5">
+    <div class="col-5 rounded-start border border-1 border-secondary border-end-0">
+        <h4 class="py-2 px-1 border-bottom"><i><i class="fa-solid fa-truck"></i> Sva vozila:</i></h4>
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Management - obavijest</strong>
+                        <small>sada</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Prikazani su svi podaci o <strong>vozilima</strong> kojima vaša firma trenutno upravlja. Molimo vas da <i><strong>redovno ažurirate stanje i servisne informacije</strong></i> kako bismo osigurali tačnost evidencije i funkcionalnost sistema.
+                    </div>
+        </div>
+        <table class="table table-bordered table-hover mb-2">
+            <thead>
+                <tr>
+                    <th scope="col"><i>Firma</i></th>
+                    <th scope="col"><i>Naziv</i></th>
+                    <th scope="col"><i>Tip</i></th>
+                    <th scope="col"><i>Stanje</i></th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for vozilo in vozila %}
+                <tr>
+                    <td><b><a hx-get="{% url 'vozilo_detail' vozilo.pk %}" hx-target="#vozilo-detail" hx-swap="innerHTML">{{ vozilo.firma }}</a></b></td>
+                    <td>{{ vozilo.naziv }}</td>
+                    <td>{{ vozilo.tip }}</td>
+                    <td>
+                        {% if vozilo.stanje == 1 %}
+                        <span class="badge bg-success">Aktivno</span>
+                        {% elif vozilo.stanje == 2 %}
+                        <span class="badge bg-warning">Na popravku</span>
+                        {% elif vozilo.stanje == 3 %}
+                        <span class="badge bg-danger">Neaktivno</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Nepoznato</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table> 
+    </div>
+    <div class="col-7 rounded-end border border-1 border-secondary">
+        <h4 class="py-2 px-1 border-bottom"><i>Detalji</i></h4>
+        <div id="vozilo-detail">
+            <!-- Ovdje se ubacuje AJAX odgovor -->
+        </div>
+    </div>
+</div>    
+{% endblock %}
