@@ -1,0 +1,44 @@
+<div class="card my-2 shadow">
+    <h5 class="card-header"><i><small>Vlasnik</small></i> {{ vozilo.firma}}</h5>
+    <div class="card-body">
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto"><i class="fa-solid fa-gear"></i> Osnovne informacije</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Naziv: <strong>{{ vozilo.naziv }}</strong><br>
+                        Tip vozila: <strong>{{ vozilo.tip }}</strong><br>
+                        Kilometraža: <strong>{{ vozilo.kilometri }}</strong> km<br>
+                        Godina proizvodnje: <strong>{{ vozilo.godiste }}</strong><br>
+                        Registracija: <strong>{{ vozilo.reg_broj }}</strong><br>
+                        Boja vozila: <strong>{{ vozilo.boja }}</strong><br>
+                    </div>
+        </div>
+
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto"><i class="fa-solid fa-screwdriver-wrench"></i> Servisne informacije</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Stanje vozila: 
+                        {% if vozilo.stanje == 1 %}
+                            <span class="badge bg-success">Aktivno</span>
+                        {% elif vozilo.stanje == 2 %}
+                            <span class="badge bg-warning">Na popravku</span>
+                        {% elif vozilo.stanje == 3 %}
+                            <span class="badge bg-danger">Neaktivno</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Nepoznato</span>
+                        {% endif %}<br>
+                        Servis: <strong>{{ vozilo.servis }}</strong><br>
+                        Servis datum: <strong>{{ vozilo.servis_datum|date:"d.m.Y" }}</strong><br>
+                        Servis kilometraža: <strong>{{ vozilo.servis_kilometri }}</strong> km<br>
+                        Servis cijena: <strong>{{ vozilo.servis_cijena|floatformat:2 }}</strong> KM<br>
+                        Servis opis: <strong>{{ vozilo.servis_opis|default:"Nema opisa servisa" }}</strong><br>
+                    </div>
+        </div>
+    
+    </div>
+</div>

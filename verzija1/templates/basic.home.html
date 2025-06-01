@@ -31,18 +31,16 @@ Home
     {% endfor %}
 {% endif %}
 
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-4 rounded-start border border-1 border-secondary border-end-0">
-            <h4 class="py-2 px-1 border-bottom"><i>Drogerie Market</i></h4>
-
+            <h4 class="py-2 px-1 border-bottom"><i><i class="fa-solid fa-building-user"></i> {{ firma.naziv }}</i></h4>
             <div class="card my-2 shadow">
                 <h5 class="card-header"><i>Detalji</i></h5>
                 <div class="card-body">
-                    <h5 class="card-title">Website <a href="">www.dm.ba</a></h5>
-                    <p class="card-text">Firma se bavi [oblast poslovanja], sa fokusom na kvalitet, pouzdanost i zadovoljstvo klijenata.</p>
+                    <h5 class="card-title">Website <a href="{{ firma.web_stranica }}">{{ domena }}</a></h5>
+                    <p class="card-text">{{ firma.opis|escape }}</p>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <div class="card h-100 shadow">
@@ -63,7 +61,7 @@ Home
                                             <td><b>2</b></td>
                                         </tr>
                                     </tbody>
-                                </table>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -91,7 +89,6 @@ Home
                     </div>
                 </div>
             </div>
-
             <div class="card my-2 shadow">
                 <h5 class="card-header">AI <i>Informacije</i></h5>
                 <div class="card-body">
@@ -100,11 +97,9 @@ Home
                     <a href="#" class="btn btn-outline-primary">Go somewhere</a>
                 </div>
             </div>
-
         </div>
         <div class="col-5 border border-1 border-secondary border-end-0">
             <h4 class="py-2 px-1 border-bottom fs-4"><i>Budzet</i></h4>
-
             <div class="card my-2 shadow">
                 <h5 class="card-header"><i>ROI Firme</i></h5>
                 <div class="card-body">
@@ -134,13 +129,9 @@ Home
                     </script>
                 </div>
             </div>
-
         </div>
-
-
         <div class="col-3 rounded-end border border-1 border-secondary">
             <h4 class="py-2 px-1 border-bottom"><i>Obavijesti</i></h4>
-
             <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">Vozilo</strong>
@@ -152,7 +143,6 @@ Home
                     Registracija vozila ističe za 5 dana.
                 </div>
             </div>
-
             <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">Vozilo</strong>
@@ -164,7 +154,6 @@ Home
                     Popravka vozila je u toku.
                 </div>
             </div>
-
             <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">Uposlenik</strong>
@@ -176,7 +165,6 @@ Home
                     Molimo obavite neophodne radnje.
                 </div>
             </div>
-
             <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">Uposlenik</strong>
@@ -188,32 +176,6 @@ Home
                     Molimo obavite neophodne radnje.
                 </div>
             </div>
-
         </div>
     </div>
-
-    <h5>Lista firmi</h5>
-    <p class="lead">U ovoj sekciji možete dodati novu firmu.</p>
-        <table border="1">
-            <thead>
-            <tr>
-                <th>Naziv</th>
-                <th>Adresa</th>
-                <th>Opis</th>
-                <th>Email</th>
-                <th>Telefon</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for f in firme %}
-            <tr>
-                <td>{{ f.naziv|escape }}</td>
-                <td>{{ f.adresa|escape }}</td>
-                <td>{{ f.opis|escape }}</td>
-                <td>{{ f.email|escape }}</td>
-                <td>{{ f.telefon|escape }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
 {% endblock %}

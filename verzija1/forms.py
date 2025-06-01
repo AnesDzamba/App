@@ -35,7 +35,6 @@ class Registracija(UserCreationForm):
                 self.fields['firma'].disabled = True
             except FirmaUser.DoesNotExist:
                 pass
-
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data.get('email')
