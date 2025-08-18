@@ -21,7 +21,11 @@ def home(request):
             'web_stranica': '#',
             }
         domena = None
-    return render(request, 'basic.home.html', {'firma': firma, 'domena': domena})
+    
+    if request.user_agent.is_mobile or request.user_agent.is_tablet:
+        return render(request, 'basic.home.mobile.html', {'firma': firma, 'domena': domena})
+    else:
+        return render(request, 'basic.home.html', {'firma': firma, 'domena': domena})
 
 # klasicni register korisnika
 def registracija(request):
@@ -48,7 +52,11 @@ def login_korisnika(request):
             return redirect('home')
         else:
             messages.error(request, 'Pogrešno korisničko ime ili lozinka!')
-    return render(request, 'basic.login.html')
+
+    if request.user_agent.is_mobile or request.user_agent.is_tablet:
+        return render(request, 'basic.login.mobile.html')
+    else:
+        return render(request, 'basic.login.html')
 
 # Unosis firmu i ispisuje se u 'home'
 @login_required

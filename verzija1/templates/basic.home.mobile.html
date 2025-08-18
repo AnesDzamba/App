@@ -1,0 +1,266 @@
+{% extends 'config.master.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+    <h2 class="display-4 fs-4 text-center">
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Company Management Software</strong>
+                    </div>
+                    <div class="toast-body">
+                        Dobrodošli <strong>{{ user.first_name }} {{ user.last_name }}</strong>!<br>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {{ message|safe }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+        </div>
+    </h2>
+
+    {% if user.is_staff %}
+        <a href="/admin" class="btn btn-outline-danger rounded mb-2 py-3 w-100">
+            <i class="fa-solid fa-gauge-high"></i>
+            Admin
+        </a>
+    {% endif %}
+
+    <div class="btn-group w-100 gap-1 shadow" role="group" aria-label="Basic mixed styles example">
+        <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary rounded-end-0 py-3 px-5 fs-2"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </form>
+        <a class="btn btn-outline-secondary py-3 fs-2" data-bs-toggle="collapse" href="#settingscollaps" role="button" aria-expanded="false" aria-controls="settingscollaps"><i class="fa-solid fa-gear"></i></a>
+        <a class="btn btn-outline-secondary py-3 fs-2" data-bs-toggle="collapse" href="#searchcollaps" role="button" aria-expanded="false" aria-controls="searchcollaps"><i class="fa-solid fa-magnifying-glass"></i></a>
+    </div>
+
+    <div class="collapse multi-collapse" id="settingscollaps">
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Settings / Opcije</strong>
+                    </div>
+                    <div class="toast-body">
+                        <strong>Osnovne opcije</strong><br>
+                        <div class="btn-group-vertical w-100 mb-2" role="group1" aria-label="Vertical button group">
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'registracija' %}"><i class="fa-solid fa-user-plus"></i> Dodaj Korisnika</a>
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'firma_unos' %}"><i class="fa-solid fa-shop"></i> Dodaj Firmu</a>
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'vozilo_unos' %}"><i class="fa-solid fa-truck-moving"></i> Dodaj Vozilo</a>
+                        </div>
+                        <strong>Dodane opcije</strong><br>
+                        <div class="btn-group-vertical w-100" role="group2" aria-label="Vertical button group">
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'vozila' %}"><i class="fa-solid fa-angle-right"></i> Pregled Vozila</a>
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'vozilo_unos' %}"><i class="fa-solid fa-angle-right"></i> Pregled Zaposlenika</a>
+                        </div>
+                        </div>
+                        <div class="d-flex justify-content-center pb-2">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input fs-3" type="checkbox" id="themeSwitch">
+                                <label class="form-check-label fs-3" for="themeSwitch"><i>Tamni Režim</i></label>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+
+    <div class="collapse multi-collapse" id="searchcollaps">
+        <form class="d-flex my-2 mx-3 border border-secondary rounded p-2 shadow" role="search"> 
+                    <input class="form-control me-2 rounded-end-0" type="search" placeholder="Search" aria-label="Search"/>
+                    <button class="btn btn-outline-success rounded-start-0 px-4" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+
+    <div class="rounded border border-1 border-secondary mt-2 mx-3">
+        <h4 class="py-2 px-1 border-bottom"><i><i class="fa-solid fa-building-user"></i> {{ firma.naziv }}</i></h4>
+            <div class="card mt-2 mx-1 shadow">
+                <h5 class="card-header"><i>Detalji</i></h5>
+                <div class="card-body">
+                    <h5 class="card-title">Website <a href="{{ firma.web_stranica }}">{{ domena }}</a></h5>
+                    <p class="card-text">{{ firma.opis|escape }}</p>
+                </div>
+            </div>
+            <div class="card mt-2 mx-1 shadow mb-2">
+                <div class="accordion accordion-flush" id="infovozilaizaposleni">
+                    <div class="accordion-item rounded">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <i class="fa-solid fa-person-walking px-2 fs-2"></i> <strong> Uposlenici</strong>
+                            </button>   
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#infovozilaizaposleni">
+                            <div class="accordion-body">
+                                <table class="table table-bordered table-hover mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>Broj uspolenika</td>
+                                            <td><b>15</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Na bolovanju</td>
+                                            <td><b>5</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Na odmoru</td>
+                                            <td><b>2</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <a href="" class="btn btn-outline-primary rounded-pill mt-2 w-100 shadow p-1">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                        Detaljno
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <i class="fa-solid fa-truck px-2 fs-2"></i> <strong>Vozila</strong>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#infovozilaizaposleni">
+                        <div class="accordion-body">
+                            <table class="table table-bordered table-hover mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Aktivna vozila</td>
+                                        <td><b>30</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Na servisu</td>
+                                        <td><b>5</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vozila u kvaru</td>
+                                        <td><b>2</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a href="{% url 'vozila' %}" class="btn btn-outline-primary rounded-pill mt-2 w-100 shadow p-1">
+                                <i class="fa-solid fa-circle-question"></i>
+                                Detaljno
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="card m-2 mx-1 shadow">
+                <h5 class="card-header">AI <i>Informacije</i></h5>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-outline-primary">Go somewhere</a>
+                </div>
+            </div>
+    </div>
+
+    <div class="rounded border border-1 border-secondary mt-2 mx-3">
+        <h4 class="py-2 px-1 border-bottom fs-4"><i>Budzet</i></h4>
+        <div class="card my-2 mx-1 shadow">
+                <h5 class="card-header"><i>ROI Firme</i></h5>
+                <div class="card-body">
+                    <div id="myChart" style="max-width:700px; height:300px" class="px-0 border"></div>
+                    <script>
+                        google.charts.load('current', {'packages':['corechart']});
+                        google.charts.setOnLoadCallback(drawChart);
+                        
+                        function drawChart() {
+                        // Set Data
+                        const data = google.visualization.arrayToDataTable([
+                        ['Price', 'Size'],
+                        [50,7],[60,8],[70,8],[80,9],[90,9],[100,9],
+                        [110,10],[120,11],[130,14],[140,14],[150,15]
+                        ]);
+                        // Set Options
+                        const options = {
+                        title: 'House Prices vs Size',
+                        hAxis: {title: 'Square Meters'},
+                        vAxis: {title: 'Price in Millions'},
+                        legend: 'none'
+                        };
+                        // Draw Chart
+                        const chart = new google.visualization.LineChart(document.getElementById('myChart'));
+                        chart.draw(data, options);
+                        }
+                    </script>
+                </div>
+            </div>
+    </div>
+
+    <div class="rounded border border-1 border-secondary mt-2 mx-3">
+        <h4 class="py-2 px-1 border-bottom"><i>Obavijesti</i></h4>
+        <div class="toast show my-2 mx-1 mx-1" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Vozilo</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Jedno od vaših vozila je na servisu.</strong>
+                    Registracija vozila ističe za 5 dana.
+                </div>
+            </div>
+            <div class="toast show my-2 mx-1" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Vozilo</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Jedno od vaših vozila je u kvaru.</strong>
+                    Popravka vozila je u toku.
+                </div>
+            </div>
+            <div class="toast show my-2 mx-1" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Uposlenik</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Uposlenik se nije prijavio u smjenu.</strong>
+                    Molimo obavite neophodne radnje.
+                </div>
+            </div>
+            <div class="toast show my-2 mx-1" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Uposlenik</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <strong>Uposlenik je prijavio odmor.</strong>
+                    Molimo obavite neophodne radnje.
+                </div>
+            </div>
+    </div>
+<script> 
+        const html = document.documentElement;
+        const themeSwitch = document.getElementById("themeSwitch");
+
+        // ⬅️ 1. Provjeri da li postoji spremljena tema u localStorage
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+        html.setAttribute("data-bs-theme", savedTheme);
+        themeSwitch.checked = (savedTheme === "dark");
+        }
+
+        // ⬅️ 2. Kada korisnik promijeni switch, sačuvaj izbor
+        themeSwitch.addEventListener("change", () => {
+        if (themeSwitch.checked) {
+            html.setAttribute("data-bs-theme", "dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            html.setAttribute("data-bs-theme", "light");
+            localStorage.setItem("theme", "light");
+        }
+        });
+
+    </script>
+{% endblock %}
