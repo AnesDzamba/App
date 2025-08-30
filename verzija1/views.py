@@ -1,3 +1,4 @@
+import re
 from urllib.parse import urlparse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -38,7 +39,11 @@ def registracija(request):
             return redirect('home')
     else:
         form = Registracija()
-    return render(request, 'basic.registracija.html', {'form': form})
+
+    if request.user_agent.is_mobile or request.user_agent.is_tablet:
+        return render(request, 'basic.registracija.mobile.html', {'form': form})
+    else:
+        return render(request, 'basic.registracija.html', {'form': form})
 
 # Login korisnika
 def login_korisnika(request):
@@ -70,7 +75,10 @@ def firma_unos(request):
             return redirect('home')
     else:
         form = FirmaForma()
-    return render(request, 'admin.firma_unos.html', {'form': form})
+    if request.user_agent.is_mobile or request.user_agent.is_tablet:
+        return render(request, 'admin.firma_unos.mobile.html', {'form': form})
+    else:
+        return render(request, 'admin.firma_unos.html', {'form': form})
 
 @login_required
 def vozilo_unos(request):
@@ -96,13 +104,24 @@ def vozilo_unos(request):
         form = VoziloForma()
     # Prosleđujemo sve firme u template za prikaz u select polju
     firme = Firma.objects.all()
-    return render(request, 'admin.vozilo_unos.html', {'form': form, 'firme': firme})
+    if request.user_agent.is_mobile or request.user_agent.is_tablet:
+        return render(request, 'admin.vozilo_unos.mobile.html', {'form': form, 'firme': firme})
+    else:
+        return render(request, 'admin.vozilo_unos.html', {'form': form, 'firme': firme})
 
 @login_required
 def vozilo_lista(request):
     vozila = Vozilo.objects.all()
-    return render(request, 'basic.vozila.html', {'vozila': vozila})
+    if request.user_agent.is_mobile or request.user_agent.is_tablet:
+        return render(request, 'basic.vozila.mobile.html', {'vozila': vozila})
+    else:
+        return render(request, 'basic.vozila.html', {'vozila': vozila})
 
 def vozilo_detail(request, pk):
     vozilo = get_object_or_404(Vozilo, pk=pk)
     return render(request, 'basic.vozilo_info.html', {'vozilo': vozilo})
+
+@login_required
+def uposlenici_view(request):
+    firme = Firma.objects.filter(firmauser__user=request.user).prefetch_related("firmauser_set__user").distinct()
+    return render(request, 'basic.uposlenici.html', {'firme': firme})

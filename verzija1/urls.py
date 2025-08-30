@@ -11,4 +11,5 @@ urlpatterns = [
     path('unos_vozilo/', views.vozilo_unos, name='vozilo_unos'),
     path('vozila/', views.vozilo_lista, name='vozila'),
     path('vozilo/<int:pk>/', views.vozilo_detail, name='vozilo_detail'),
+    path('uposlenici/', views.uposlenici_view, name='uposlenici'),
 ]

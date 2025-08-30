@@ -1,0 +1,47 @@
+{% extends 'config.master.html' %}
+
+{% block title %}
+Vozila
+{% endblock %}
+
+{% block content %}
+<h2 class="display-4 fs-4 mt-3">
+    <div class="d-flex justify-content-between">
+                <small class="text-muted">Company Management Software</small>
+                <span><b>Dashboard <i class="fa-solid fa-angle-right fs-5"></i> <small><i>Uposlenici</i></small></b></span>
+    </div>
+</h2>
+<div class="row mb-5">
+    <div class="col-5 rounded-start border border-1 border-secondary border-end-0">
+        <h4 class="py-2 px-1 border-bottom"><i><i class="fa-solid fa-people-roof"></i> Uposlenici</i></h4>
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Management - obavijest</strong>
+                        <small>sada</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Prikazani su svi podaci o <strong>zaposlenima</strong> u vašoj firmi. Molimo vas da <i><strong>redovno ažurirate njihove podatke i informacije o radnim ulogama</strong></i> kako bismo osigurali tačnost evidencije i funkcionalnost sistema.
+                    </div>
+        </div>
+        {% if firme %}
+        {% for firma in firme %}
+        <h4 class="py-2 px-1 border-bottom"><small>Firma:</small> {{ firma.naziv }}</h4>
+    </div>
+    <div class="col-7 rounded-end border border-1 border-secondary">
+        <h4 class="py-2 px-1 border-bottom"><i>Detalji</i></h4>
+        <div>
+            <ul>
+                {% for fu in firma.firmauser_set.all %}
+                    <li>
+                        <b>{{ fu.user.first_name }} {{ fu.user.last_name }}</b> (Nalog: {{ fu.user.username }})
+                        - Ovlaštenje: {% if fu.ovlastenje == 0 %}Admin{% else %}User{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>    
+{% endblock %}

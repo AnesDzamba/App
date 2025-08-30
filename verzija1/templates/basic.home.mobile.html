@@ -255,9 +255,11 @@ Home
         themeSwitch.addEventListener("change", () => {
         if (themeSwitch.checked) {
             html.setAttribute("data-bs-theme", "dark");
+            html.classList.add("dark-mode");
             localStorage.setItem("theme", "dark");
         } else {
             html.setAttribute("data-bs-theme", "light");
+            html.classList.remove("light-mode");
             localStorage.setItem("theme", "light");
         }
         });
