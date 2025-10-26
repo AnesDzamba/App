@@ -53,6 +53,8 @@ class Vozilo(models.Model):
     servis_cijena = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     servis_opis = models.TextField(null=True, blank=True)
 
+    #qr kod
+    qr_code = models.ImageField(upload_to="qr_codes/", null=True, blank=True)
+
     def __str__(self):
         return f'{self.naziv} {self.tip} {self.reg_broj} {self.godiste} {self.boja}'
-    

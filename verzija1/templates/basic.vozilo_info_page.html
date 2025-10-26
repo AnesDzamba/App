@@ -1,0 +1,155 @@
+{% extends 'config.master.html' %}
+
+{% block title %}
+Vozila
+{% endblock %}
+
+{% block content %}
+    <div class="card my-2 shadow">
+    <h5 class="card-header roboto">Detaljne informacije o vozilu</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-3">
+                <div class="card shadow">
+                    <h5 class="card-header montserrat"><i class="fa-solid fa-qrcode"></i> QR kod vozila</h5>
+                    <div class="card-body">
+                        {% if vozilo.qr_code %}
+                            <div id="qr-div">
+                                <img src="{{ vozilo.qr_code.url }}" alt="QR kod vozila" width="250" class="img-fluid mx-auto d-block">
+                                <a 
+                                href="{{ vozilo.qr_code.url }}" 
+                                download="qr_vozilo_{{ vozilo.pk }}.png"
+                                class="btn btn-outline-danger rounded-pill mt-1 w-100 shadow p-1"
+                                >
+                                    <i class="fa-solid fa-download"></i> QR kod
+                                </a>
+                            </div>
+                        {% else %}
+                            <button 
+                            hx-get="{% url 'generisi_qr' vozilo.pk %}" 
+                            hx-target="#qr-div" 
+                            hx-swap="innerHTML"
+                            class="btn btn-outline-success rounded-pill mt-2 w-100 shadow p-1"
+                            >
+                                <i class="fa-solid fa-circle-plus"></i> QR kod
+                            </button>
+                            <p class="text-center lato-regular mb-0 mt-2"><small>Trenutno vozilo <b>nema generisan QR kod</b>.<br>Molimo generišite pritiskom na dugme.</small></p>
+                            
+                            <div class="toast show my-2 w-100" role="alert" aria-live="assertive" aria-atomic="true">
+                                        <div class="toast-header">
+                                            <strong class="me-auto roboto">Sistem - napomena</strong>
+                                            <small>sada</small>
+                                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                        </div>
+                                        <div class="toast-body lato-regular text-center">
+                                            Da bi dobili opciju <b>preuzimanja QR koda</b>, potrebno je prvo da ponovo ucitate stranicu nakon generisanja.
+                                        </div>
+                            </div>
+
+                            <div id="qr-div"></div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="toast show my-2 w-100" role="alert" aria-live="assertive" aria-atomic="true">
+                                        <div class="toast-header">
+                                            <strong class="me-auto roboto">Sistem - obavijest</strong>
+                                            <small>sada</small>
+                                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                        </div>
+                                        <div class="toast-body lato-regular text-secondary">
+                                            <p class="mb-2">Molimo sve korisnike da redovno i blagovremeno <i class="lato-bold-italic text-dark">ažuriraju podatke</i> o vozilima kako bi sistem ostao funkcionalan i pouzdan.</p>
+                                            Tačne informacije omogućavaju <i class="lato-bold-italic text-dark">efikasno upravljanje voznim parkom i pravovremeno reagovanje na eventualne potrebe ili probleme</i>.<br>Hvala na saradnji!
+                                        </div>
+                            </div>
+            </div>
+
+            <div class="col-5">
+                <div class="card shadow">
+                    <h5 class="card-header montserrat"><i class="fa-solid fa-gear"></i> Generalne informacije o vozilu</h5>
+                    <div class="card-body">
+
+                        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <strong class="me-auto roboto"><i class="fa-solid fa-gear"></i> Osnovne informacije</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Vlasnik vozila: <strong>{{ vozilo.firma }}</strong><br>
+                                        Naziv: <strong>{{ vozilo.naziv }}</strong><br>
+                                        Tip vozila: <strong>{{ vozilo.tip }}</strong><br>
+                                        Kilometraža: <strong>{{ vozilo.kilometri }}</strong> km<br>
+                                        Godina proizvodnje: <strong>{{ vozilo.godiste }}</strong><br>
+                                        Registracija: <strong>{{ vozilo.reg_broj }}</strong><br>
+                                        Boja vozila: <strong>{{ vozilo.boja }}</strong><br>
+                                    </div>
+                        </div>
+
+                        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <strong class="me-auto roboto"><i class="fa-solid fa-screwdriver-wrench"></i> Servisne informacije</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Stanje vozila: 
+                                        {% if vozilo.stanje == 1 %}
+                                            <span class="badge bg-success">Aktivno</span>
+                                        {% elif vozilo.stanje == 2 %}
+                                            <span class="badge bg-warning">Na popravku</span>
+                                        {% elif vozilo.stanje == 3 %}
+                                            <span class="badge bg-danger">Neaktivno</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Nepoznato</span>
+                                        {% endif %}<br>
+                                        Servis: <strong>{{ vozilo.servis }}</strong><br>
+                                        Servis datum: <strong>{{ vozilo.servis_datum|date:"d.m.Y" }}</strong><br>
+                                        Servis kilometraža: <strong>{{ vozilo.servis_kilometri }}</strong> km<br>
+                                        Servis cijena: <strong>{{ vozilo.servis_cijena|floatformat:2 }}</strong> KM<br>
+                                        Servis opis: <strong>{{ vozilo.servis_opis|default:"Nema opisa servisa" }}</strong><br>
+                                    </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card shadow">
+                    <h5 class="card-header montserrat"><i class="fa-solid fa-chart-simple"></i> Statistika o vozilu</h5>
+                    <div class="card-body">
+
+                        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <strong class="me-auto roboto"><i class="fa-solid fa-car-burst"></i> Prijavljeni kvarovi</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body fs-6">
+                                        <p class="lato-bold"><i class="fa-solid fa-thumbs-up"></i> Nema prijavljenih kvarova za ovo vozilo.</p>
+
+                                        <p class="text-secondary mt-2 lato-regular-italic text-center">Ukoliko želite prijaviti kvar, molimo koristite aplikaciju ili kontaktirajte administratora.</p>
+                                    </div>
+                        </div>
+
+                        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <strong class="me-auto roboto"><i class="fa-solid fa-robot"></i> Sugestije (Umjetna inteligencija)</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body lato-regular">
+                                        <ul class="mb-2">
+                                            <li class="lato-bold">Vozilo je u dobrom stanju i redovno servisirano.</li>
+                                            <li>Nema prijavljenih kvarova – vozilo je pouzdano.</li>
+                                            <li>Preporučuje se praćenje servisnih intervala i ažuriranje kilometraže.</li>
+                                            <li class="lato-bold-italic">Povremeno provjerite kočioni sistem, ulje i gume radi dodatne sigurnosti.</li>
+                                        </ul>
+                                    </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+    </div>
+</div>
+{% endblock %}

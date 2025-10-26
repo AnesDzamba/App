@@ -12,4 +12,6 @@ urlpatterns = [
     path('vozila/', views.vozilo_lista, name='vozila'),
     path('vozilo/<int:pk>/', views.vozilo_detail, name='vozilo_detail'),
     path('uposlenici/', views.uposlenici_view, name='uposlenici'),
+    path('vozilo_info/<int:pk>/', views.vozilo_info_page, name='vozilo_info_page'),
+    path("vozilo_info/<int:pk>/generisi_qr/", views.generisi_qr_view, name="generisi_qr"),
 ]
