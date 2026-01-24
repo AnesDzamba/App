@@ -1,5 +1,13 @@
 <div class="card my-2 shadow">
-    <h5 class="card-header"><i><small>Vlasnik</small></i> {{ vozilo.firma}}</h5>
+    <h5 class="card-header roboto">
+            <small>Vlasnik</small>
+        {{ vozilo.firma}} 
+        <a 
+        class="btn btn-warning px-2 py-1 mx-4" 
+        href="{% url 'vozilo_info_page' vozilo.pk %}">
+            <i class="fa-solid fa-circle-info"></i> Više informacija
+        </a>
+    </h5>
     <div class="card-body">
         <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header">
@@ -39,6 +47,7 @@
                         Servis opis: <strong>{{ vozilo.servis_opis|default:"Nema opisa servisa" }}</strong><br>
                     </div>
         </div>
+        
     
     </div>
 </div>

@@ -6,10 +6,10 @@ Home
 
 {% block content %}
 
-    <h2 class="display-4 fs-4">
+    <h2 class="display-4 fs-4 montserrat">
         Dobrodošli {{ user.first_name }} {{ user.last_name }}!<br>
         <div class="d-flex justify-content-between">
-            <small class="text-muted">Company Management Software</small>
+            <small class="text-muted lato-regular">Company Management Software</small>
             <span><b>Dashboard</b></span>
         </div>  
     </h2>
@@ -17,13 +17,13 @@ Home
 {% if messages %}
     {% for message in messages %}
     <div class="row">
-        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast show my-2 w-100" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header">
-                        <strong class="me-auto">Login - obavijest</strong>
+                        <strong class="me-auto roboto">Login - obavijest</strong>
                         <small>sada</small>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
-                    <div class="toast-body">
+                    <div class="toast-body lato-regular">
                         {{ message|safe }}
                     </div>
         </div>
@@ -31,22 +31,22 @@ Home
     {% endfor %}
 {% endif %}
 
-    <div class="row mb-5">
-        <div class="col-4 rounded-start border border-1 border-secondary border-end-0">
-            <h4 class="py-2 px-1 border-bottom"><i><i class="fa-solid fa-building-user"></i> {{ firma.naziv }}</i></h4>
+    <div class="row mb-5 shadow">
+        <div class="col-4 rounded-start border border-1 border-end-0">
+            <h4 class="roboto py-2 px-1 border-bottom"><i class="fa-solid fa-building-user"></i> {{ firma.naziv }}</h4>
             <div class="card my-2 shadow">
-                <h5 class="card-header"><i>Detalji</i></h5>
+                <h5 class="card-header montserrat">Detalji</h5>
                 <div class="card-body">
-                    <h5 class="card-title">Website <a href="{{ firma.web_stranica }}">{{ domena }}</a></h5>
-                    <p class="card-text">{{ firma.opis|escape }}</p>
+                    <h5 class="card-title lato-bold">Website <a href="{{ firma.web_stranica }}">{{ domena }}</a></h5>
+                    <p class="card-text lato-regular">{{ firma.opis|escape }}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <div class="card h-100 shadow">
-                        <h5 class="card-header">Uposlenici</h5>
+                        <h5 class="card-header montserrat">Uposlenici</h5>
                         <div class="card-body">
-                            <table class="table table-bordered table-hover mb-0">
+                            <table class="table table-borderless table-hover mb-0 lato-regular">
                                     <tbody>
                                         <tr>
                                             <td>Broj uspolenika</td>
@@ -62,12 +62,20 @@ Home
                                         </tr>
                                     </tbody>
                             </table>
+                            <div>
+                                
+                                <a href="{% url 'uposlenici' %}" class="btn btn-outline-primary rounded-pill mt-2 w-100 shadow p-1">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                    Detaljno
+                                </a>
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="card shadow">
-                        <h5 class="card-header">Vozila</h5>
+                        <h5 class="card-header montserrat">Vozila</h5>
                         <div class="card-body">
                                 <table class="table table-bordered table-hover mb-0">
                                     <tbody>
@@ -85,23 +93,27 @@ Home
                                         </tr>
                                     </tbody>
                                 </table>
+                                <a href="{% url 'vozila' %}" class="btn btn-outline-primary rounded-pill mt-2 w-100 shadow p-1">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                    Detaljno
+                                </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card my-2 shadow">
-                <h5 class="card-header">AI <i>Informacije</i></h5>
+                <h5 class="card-header montserrat">AI <i>Informacije</i></h5>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title lato-bold">Special title treatment</h5>
+                    <p class="card-text lato-regular">With supporting text below as a natural lead-in to additional content.</p>
                     <a href="#" class="btn btn-outline-primary">Go somewhere</a>
                 </div>
             </div>
         </div>
-        <div class="col-5 border border-1 border-secondary border-end-0">
-            <h4 class="py-2 px-1 border-bottom fs-4"><i>Budzet</i></h4>
+        <div class="col-5 border border-1 border-end-0">
+            <h4 class="py-2 px-1 border-bottom fs-4 roboto"><i class="fa-solid fa-chart-line"></i> Statistika</h4>
             <div class="card my-2 shadow">
-                <h5 class="card-header"><i>ROI Firme</i></h5>
+                <h5 class="card-header montserrat">Ukupna potrošnja goriva</h5>
                 <div class="card-body">
                     <div id="myChart" style="max-width:700px; height:300px" class="px-0 border"></div>
                     <script>
@@ -117,9 +129,9 @@ Home
                         ]);
                         // Set Options
                         const options = {
-                        title: 'House Prices vs Size',
-                        hAxis: {title: 'Square Meters'},
-                        vAxis: {title: 'Price in Millions'},
+                        title: 'Potrošnja goriva na zadnjih 150 km',
+                        hAxis: {title: 'Kilometri'},
+                        vAxis: {title: 'Potrošnja u litrima'},
                         legend: 'none'
                         };
                         // Draw Chart
@@ -130,8 +142,8 @@ Home
                 </div>
             </div>
         </div>
-        <div class="col-3 rounded-end border border-1 border-secondary">
-            <h4 class="py-2 px-1 border-bottom"><i>Obavijesti</i></h4>
+        <div class="col-3 rounded-end border border-1">
+            <h4 class="py-2 px-1 border-bottom roboto"><i class="fa-solid fa-question"></i> Obavijesti</h4>
             <div class="toast show my-2" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">Vozilo</strong>

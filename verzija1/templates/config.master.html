@@ -1,5 +1,6 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=home_work" />
 </head>
 
 <body>
@@ -16,13 +22,13 @@
         <nav class="navbar navbar-expand-lg bg-body-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">APP v1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler d-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">
+                <div class="collapse navbar-collapse d-md-none" id="navbarSupportedContent">
+                <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0 montserrat">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item">
                     <form action="{% url 'logout' %}" method="post">
@@ -31,7 +37,11 @@
                     </form>
                     </li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a 
+                    class="nav-link dropdown-toggle {% if '/vozila' in request.path or '/uposlenici' in request.path %}active{% endif %}
+                    href="#" role="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">
                         Opcije
                     </a>
                     <ul class="dropdown-menu">
@@ -40,7 +50,14 @@
                         <li><a class="dropdown-item" href="{% url 'vozilo_unos' %}"><i class="fa-solid fa-truck-moving"></i> Dodaj Vozilo</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'vozila' %}"><i class="fa-solid fa-angle-right"></i> Pregled Vozila</a></li>
-                        <li><a class="dropdown-item" href="{% url 'vozilo_unos' %}"><i class="fa-solid fa-angle-right"></i> Pregled Zaposlenika</a></li>
+                        <li><a class="dropdown-item" href="{% url 'uposlenici' %}"><i class="fa-solid fa-angle-right"></i> Pregled Zaposlenika</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="px-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="themeSwitch">
+                                <label class="form-check-label" for="themeSwitch">Tamni Režim</label>
+                            </div>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
                         <li><h6 class="dropdown-header" href="#">verzija: 1.0</h6></li>
                     </ul>
@@ -48,12 +65,15 @@
                 </ul>
                 <div class="d-flex">
                     {% if user.is_staff %}
-                        <a href="/admin" class="btn btn-outline-danger mx-3 py-1">Admin</a>
+                        <a href="/admin" class="btn btn-outline-danger rounded-pill mx-3 py-1">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            Admin
+                        </a>
                     {% endif %}
                 </div>
                 <form class="d-flex" role="search"> 
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input class="form-control me-2 rounded-start-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <button class="btn btn-outline-success rounded-end-circle" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 </div>
             </div>
@@ -63,5 +83,28 @@
     {% block content %}
     {% endblock %}
     </div>
+    <script> 
+        const html = document.documentElement;
+        const themeSwitch = document.getElementById("themeSwitch");
+
+        // 1. Provjeri da li postoji spremljena tema u localStorage
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+        html.setAttribute("data-bs-theme", savedTheme);
+        themeSwitch.checked = (savedTheme === "dark");
+        }
+
+        // 2. Kada korisnik promijeni switch, sačuvaj izbor
+        themeSwitch.addEventListener("change", () => {
+        if (themeSwitch.checked) {
+            html.setAttribute("data-bs-theme", "dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            html.setAttribute("data-bs-theme", "light");
+            localStorage.setItem("theme", "light");
+        }
+        });
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,77 @@
+{% extends 'config.master.html' %}
+
+{% block title %}
+Vozila
+{% endblock %}
+
+{% block content %}
+    <div class="btn-group w-100 gap-1 shadow" role="group" aria-label="Basic mixed styles example">
+        <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary rounded-end-0 py-3 px-5 fs-2"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </form>
+        <a class="btn btn-outline-secondary py-3 fs-2" data-bs-toggle="collapse" href="#settingscollaps" role="button" aria-expanded="false" aria-controls="settingscollaps"><i class="fa-solid fa-gear"></i></a>
+        <a class="btn btn-outline-secondary py-3 fs-2" href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a>
+    </div>
+
+    <div class="collapse multi-collapse" id="settingscollaps">
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Settings / Opcije</strong>
+                    </div>
+                    <div class="toast-body">
+                        <strong>Osnovne opcije</strong><br>
+                        <div class="btn-group-vertical w-100 mb-2" role="group1" aria-label="Vertical button group">
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'registracija' %}"><i class="fa-solid fa-user-plus"></i> Dodaj Korisnika</a>
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'firma_unos' %}"><i class="fa-solid fa-shop"></i> Dodaj Firmu</a>
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'vozilo_unos' %}"><i class="fa-solid fa-truck-moving"></i> Dodaj Vozilo</a>
+                        </div>
+                        <strong>Dodane opcije</strong><br>
+                        <div class="btn-group-vertical w-100" role="group2" aria-label="Vertical button group">
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'vozila' %}"><i class="fa-solid fa-angle-right"></i> Pregled Vozila</a>
+                            <a class="btn btn-outline-secondary py-2" href="{% url 'vozilo_unos' %}"><i class="fa-solid fa-angle-right"></i> Pregled Zaposlenika</a>
+                        </div>
+                        </div>
+                        <div class="d-flex justify-content-center pb-2">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input fs-3" type="checkbox" id="themeSwitch">
+                                <label class="form-check-label fs-3" for="themeSwitch"><i>Tamni Režim</i></label>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+
+    <h2 class="display-4 fs-4 text-center mx-3">
+        <div class="toast show my-2 w-100 border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Company Management Software</strong>
+                    </div>
+                    <div class="toast-body">
+                        Prikazani su svi podaci o <strong>vozilima</strong> kojima vaša firma trenutno upravlja. Molimo vas da <i><strong>redovno ažurirate stanje i servisne informacije</strong></i> kako bismo osigurali tačnost evidencije i funkcionalnost sistema.
+                    </div>
+        </div>
+    </h2>
+
+    <div class="rounded border border-1 border-secondary mt-2 mb-5 mx-3">
+        <h4 class="py-2 px-1 border-bottom"><i class="fa-solid fa-truck-moving px-2 fs-2"></i> Sva vozila</h4>
+        <div class="m-2">
+        {% for vozilo in vozila %}
+            <a 
+            class="btn btn-outline-secondary w-100 mb-1" 
+            data-bs-toggle="collapse" 
+            href="#vozilo{{ vozilo.pk }}" 
+            role="button" 
+            aria-expanded="false" 
+            aria-controls="vozilo{{ vozilo.pk }}"
+            hx-get="{% url 'vozilo_detail' vozilo.pk %}" 
+            hx-target="#vozilo-detail" 
+            hx-swap="innerHTML">
+                {{ vozilo.firma }}
+            </a>
+        {% endfor %}
+            <div id="vozilo-detail">
+                <!-- Ovdje se ubacuje AJAX odgovor -->
+            </div>
+    </div>    
+{% endblock %}

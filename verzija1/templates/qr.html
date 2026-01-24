@@ -1,0 +1,5 @@
+{% if vozilo.qr_code %}
+    <img src="{{ vozilo.qr_code.url }}" alt="QR kod vozila" width="250" class="img-fluid mx-auto d-block">
+{% else %}
+    <p>QR kod nije generisan.</p>
+{% endif %}
