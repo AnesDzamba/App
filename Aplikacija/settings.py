@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ytki(r4vporxgq1fykhn=%27cylv4646+%!fv$%y0duxlqzk15
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.4','127.0.0.1', '192.168.0.13']
+ALLOWED_HOSTS = ['192.168.1.4','127.0.0.1', '192.168.0.12']
 
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
