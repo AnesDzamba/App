@@ -58,3 +58,15 @@ class Vozilo(models.Model):
 
     def __str__(self):
         return f'{self.naziv} {self.tip} {self.reg_broj} {self.godiste} {self.boja}'
+
+class Kvar(models.Model):
+    vozilo = models.ForeignKey(Vozilo, on_delete=models.CASCADE)
+    firma = models.ForeignKey(Firma, on_delete=models.CASCADE)
+    opis = models.TextField()
+    datum_prijave = models.DateTimeField(auto_now_add=True)
+    datum_rijesenja = models.DateTimeField(null=True, blank=True)
+    cijena_popravka = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    status = models.IntegerField()  # 0 - prijavljen, 1 - u radu, 2 - rijesen
+
+    def __str__(self):
+        return f'{self.vozilo} {self.opis} {self.datum_prijave} {self.datum_rijesenja} {self.cijena_popravka} {self.status}'
